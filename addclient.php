@@ -2,20 +2,17 @@
 
 require_once 'config.php';
 
-
-
-
-
-
-
 $nom = isset($_POST['nom']) ? $_POST['nom'] : null;
 $email = isset($_POST['email']) ? $_POST['email'] : null;
 $password = isset($_POST['password']) ? $_POST['password'] : null;
+$role = isset($_POST['role']) ? $_POST['role'] : null;
+$date = isset($_POST['date_creation']) ? $_POST['date_creation'] : null;
+$isactive = isset($_POST['is_active']) ? $_POST['is_active'] : null;
 $add = isset($_POST['add']) ? $_POST['add'] : null;
-
+$hashedPassword = password_hash('password', PASSWORD_BCRYPT);
 if ($add == 'ok') {
 
-  $sql = "INSERT INTO clients (id,nom,email,password) VALUES(NULL,'$nom','$email','$password')";
+  $sql = "INSERT INTO clients (id,nom,email,password,role,date_creation,is_active) VALUES(NULL,'$nom','$email','$hashedPassword','$role','$date','$isactive')";
   $set = mysqli_query($connect, $sql) or die(mysqli_error($connect));
 
   if ($set) {
@@ -305,6 +302,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="form-group">
                     <label for="password">password</label>
                     <input type="password" class="form-control" name="password" placeholder="password">
+                  </div>
+                  <div class="form-group">
+                    <label for="role">role</label>
+                    <input type="text" class="form-control" name="role" placeholder="role">
+                  </div>
+                  <div class="form-group">
+                    <label for="date_creation">date_creation</label>
+                    <input type="datetime-local" class="form-control" name="date_creation" placeholder="date_creation">
+                  </div>
+                  <div class="form-group">
+                    <label for="is_active">is_active</label>
+                    <input type="boolean" class="form-control" name="is_active" placeholder="is_active">
                   </div>
 
               </div>

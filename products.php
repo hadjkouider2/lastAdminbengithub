@@ -299,11 +299,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <th>qty</th>
                         <th>photo</th>
                         <th>category-id</th>
+                        <th>discount</th>
                         <th>datetime</th>
                         <th>update_at</th>
                         <th>created_by</th>
                         <th>update_by</th>
-                        <th>inactive</th>
+
 
 
                         <th>Action</th>
@@ -321,11 +322,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <td><?= $data['qty'] ?> </td>
                           <td><?= $data['photo'] ?></td>
                           <td><?= $data['category_id'] ?></td>
+                          <td><?= $data['discount'] ?></td>
                           <td><?= $data['datetime'] ?></td>
                           <td><?= $data['update_at'] ?></td>
                           <td><?= $data['created_by'] ?></td>
                           <td><?= $data['update_by'] ?></td>
-                          <td><?= $data['inactive'] ?></td>
+
 
 
                           <td>

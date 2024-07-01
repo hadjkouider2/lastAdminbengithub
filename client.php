@@ -296,6 +296,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <th>nom</th>
                         <th>email</th>
                         <th>password</th>
+                        <th>role</th>
+                        <th>date_creation</th>
+                        <th>is_active</th>
 
                         <th>Action</th>
                       </tr>
@@ -310,6 +313,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <td><?= $data['nom'] ?></td>
                           <td><?= $data['email'] ?></td>
                           <td><?= $data['password'] ?></td>
+                          <td><?= $data['role'] ?></td>
+                          <td><?= $data['date_creation'] ?></td>
+                          <td><?= $data['is_active'] ?></td>
 
                           <td>
                             <a href="deleteclient.php?u=<?= $data['id'] ?>" class="btn btn-danger">

@@ -1,21 +1,24 @@
 <?php
 
 require_once 'config.php';
-$nom = isset($_POST['nom']) ? $_POST['nom'] : null;
 $email = isset($_POST['email']) ? $_POST['email'] : null;
-$password = (isset($_POST['password']) ? $_POST['password']   : null);
-$add = isset($_POST['add']) ? $_POST['add'] : null;
+$password = isset($_POST['password']) ? $_POST['password'] : null;
 
-if ($add == 'ok' && !empty($nom) && !empty($email) && !empty($password)) {
-    $hashedPassword = password_hash('password', PASSWORD_BCRYPT);
-    $sql = "INSERT INTO clients (id,nom,email,password) VALUES(NULL,'$nom','$email','$hashedPassword')";
-    $set = mysqli_query($connect, $sql) or die(mysqli_error($connect));
 
-    if ($set) {
-        header('location:front.php');
-    }
+$edit = (isset($_POST['v'])) ? $_POST['v'] : null;
+
+
+if ($edit == 'yes') {
+
+
+  $sqlU = "UPDATE clients SET password='$password' where email='$email'";
+
+  $set = mysqli_query($connect, $sqlU) or die(mysqli_error($connect));
 }
 
+if ($set) {
+  header('location:front.php');
+}
 
 ?>
 <!DOCTYPE html>
@@ -31,7 +34,6 @@ if ($add == 'ok' && !empty($nom) && !empty($email) && !empty($password)) {
     <link rel="stylesheet" href="style/all.min.css">
     <link rel="stylesheet" href="style/style2.css">
 
-
 </head>
 
 <body>
@@ -42,38 +44,31 @@ if ($add == 'ok' && !empty($nom) && !empty($email) && !empty($password)) {
             <!-- <?php foreach ($myCats as $cat) : ?>
         <a href="productsCat.php?p=<?= $cat['id'] ?>"><?= $cat['nom'] ?></a>
       <?php endforeach; ?> -->
-            <a href="#">Contact</a>
-            <button class="btnLogin-popup">signin</button>
+            <a href="contact us.php">Contact</a>
+            <button class="btnLogin-popup">Recover_pass</button>
         </nav>
     </header>
     <section class="site-section aos-init aos-animate mt-5  " id='sticky'>
         <div class="container">
             <div class="row justify-content-center mb-5">
                 <div class="col-md-7 text-center border-primary">
-                    <h2 class="font-weight-light text-primary mb-5">Inscription</h2>
-                    <p class="color-black-opacity-5">Veuillez vous inscrire</p>
+                    <h2 class="font-weight-light text-primary mb-5">Recover-password</h2>
+                    <p class="color-black-opacity-5">Veuillez vous identifiez</p>
                 </div>
             </div>
             <div class="row">
                 <main>
                     <section class="">
-                        <div class="form-box register">
-                            <h2>S'inscrire</h2>
-                            <form action="" method="POST">
-                                <div class="input-box">
-                                    <span class="icon">
-                                        <i class="fa fa-user"></i>
-                                    </span>
-                                    <input type="text" name="nom" required>
-                                    <label>Nom d'utilisateur</label>
-                                </div>
+                        <div class="form-box login">
+                            <h2>Recover-password</h2>
+                            <form action="" method="post">
                                 <div class="input-box">
                                     <span class="icon">
                                         <i class="fa fa-envelope"></i>
                                     </span>
                                     <input type="email" name="email" required>
                                     <label>Email</label>
-                                </div>
+                                </div>-
                                 <div class="input-box">
                                     <span class="icon">
                                         <i class="fa fa-lock"></i>
@@ -81,47 +76,34 @@ if ($add == 'ok' && !empty($nom) && !empty($email) && !empty($password)) {
                                     <input type="password" name="password" required>
                                     <label>Password</label>
                                 </div>
-                                <div class="remember-forgot">
-                                    <label><input type="checkbox">J'accept les termes & conditions
-                                    </label>
+                                <div class="input-box">
+                                    <span class="icon">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                    <input type="password" name="confirm_password" required>
+                                    <label>confirm Password</label>
                                 </div>
-                                <input type="hidden" name="add" value="ok">
 
-                                <button type="submit" class="btn" value="Log in">S'inscrire</button>
+                                <input type="hidden" name="v" value="yes">
+                                <button type="submit" class="btn">change password</button>
                                 <div style="color: #ca3b20">
-                                </div>
-                                <div class="login-register">
-                                    <p>Vous avez deja un compte?<a href="#" class="login-link">Connexion</a></p>
                                 </div>
 
                             </form>
 
-
                         </div>
-                        </form>
-
-
                     </section>
-
-
                 </main>
             </div>
+
+
+
+
         </div>
 
 
-    </section>
-
-
-
-
-
-
-
-
-
 
     </section>
-
 
     <script src="script/script.js"></script>
 </body>

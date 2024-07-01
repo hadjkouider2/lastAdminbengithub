@@ -33,7 +33,7 @@ if ($edit == 'ok') {
     $set = mysqli_query($connect, $sqlU) or die(mysqli_error($connect));
 }
 
-if ($set) {
+if (@$set) {
     header('location:category.php');
 }
 

@@ -4,10 +4,10 @@ require_once 'config.php';
 require_once('functions.php');
 
 $myCats = getLatesCat(3);
-$catID = (isset($_GET['p'])) ? $_GET['p'] : NULL;
+// $catID = (isset($_GET['p'])) ? $_GET['p'] : NULL;
 
-if ($catID)
-    $products = getProductsByCat($catID);
+// if ($catID)
+@$products = getProducts($id);
 // echo '<prev>';
 // print_r($products);
 // echo '</prev>';
@@ -38,6 +38,7 @@ if ($catID)
                 <a href="productsCat.php?p=<?= $cat['id'] ?>"><?= $cat['nom'] ?></a>
             <?php endforeach; ?>
             <a href="#">Contact</a>
+            <a href="logout.php">logout</a>
             <button class="btnLogin-popup"><a href="login.php">Administration</a></button>
         </nav>
     </header>

@@ -21,14 +21,18 @@ if ($num == 1) {
 $nom = isset($_POST['nom']) ? $_POST['nom'] : null;
 $email = isset($_POST['email']) ? $_POST['email'] : null;
 $pass = isset($_POST['password']) ? $_POST['password'] : null;
+$role = isset($_POST['role']) ? $_POST['role'] : null;
+$date = isset($_POST['date_creation']) ? $_POST['date_creation'] : null;
+$isactive = isset($_POST['is_active']) ? $_POST['is_active'] : null;
 
 $id = isset($_POST['id']) ? $_POST['id'] : null;
 
 $edit = (isset($_POST['edit'])) ? $_POST['edit'] : null;
+$hashedPassword = password_hash('password', PASSWORD_BCRYPT);
 
 if ($edit == 'ok') {
 
-    $sqlU = "UPDATE clients SET nom='$nom',email='$email', password='$pass' WHERE id=$id";
+    $sqlU = "UPDATE clients SET nom='$nom',email='$email', password='$hashedPassword ',role='$role',date_creation='$date',is_active='$isactive' WHERE id=$id";
 
     $set = mysqli_query($connect, $sqlU) or die(mysqli_error($connect));
 }
@@ -317,6 +321,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <div class="form-group">
                                             <label for="password">password</label>
                                             <input type="password" class="form-control" name="password" placeholder="password" value="<?= $data["password"] ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="role">role</label>
+                                            <input type="text" class="form-control" name="role" placeholder="role" value="<?= $data["role"] ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="date_creation">date_creation</label>
+                                            <input type="datetime-local" class="form-control" name="date_creation" placeholder="date_creation" value="<?= $data["date_creation"] ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="is_active">is_active</label>
+                                            <input type="is_active" class="form-control" name="is_active" placeholder="is_active" value="<?= $data["is_active"] ?>">
                                         </div>
                                         <input type="hidden" name='id' value="<?= $data["id"] ?>">
                                         <input type="hidden" name='edit' value='ok'>

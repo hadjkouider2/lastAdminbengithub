@@ -331,6 +331,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <input type="text" class="form-control" name="category_id" placeholder="Enter category_id" value="<?= $data["category_id"] ?>">
                     </div>
                     <div class="form-group">
+                      <label for="discount">discount</label>
+                      <input type="number" class="form-control" name="discount" placeholder="Enter discount" value="<?= $data["discount"] ?>">
+                    </div>
+                    <div class="form-group">
                       <label for="datetime">datetime</label>
                       <input type="datetime-local" class="form-control" name="datetime" placeholder="datetime" value="<?= $data["datetime"] ?>">
                     </div>

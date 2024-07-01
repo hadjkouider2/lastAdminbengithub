@@ -16,7 +16,7 @@ if ($isOk == 'yes') :
     } else {
 
 
-        header('Location:indexfront.php');
+        header('Location:front.php');
     }
 endif;
 ?>

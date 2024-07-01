@@ -32,7 +32,14 @@ function getLatesCat($num)
     $q = mysqli_query($connect, $sql);
     return mysqli_fetch_all($q, MYSQLI_ASSOC);
 }
-
+function getproductsforcart($idproducts)
+{
+    global $connect;
+    $sql = "SELECT * FROM products WHERE id IN ($idproducts)";
+    $q = mysqli_query($connect, $sql);
+    $counter = mysqli_num_rows($q);
+    return mysqli_fetch_all($q, MYSQLI_ASSOC);
+}
 
 
 function upload()
@@ -106,3 +113,61 @@ function getProductsByCat($id)
 
 // isActive($id)
 // isConfirm($id)
+// createdbyme:
+function getProductsById($id)
+{
+    global $connect;
+    $sql = "SELECT * FROM products WHERE id = $id ";
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_all($q, MYSQLI_ASSOC);
+}
+function getProducts($id)
+{
+    global $connect;
+    $sql = "SELECT * FROM products ";
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_all($q, MYSQLI_ASSOC);
+}
+function getclientById($cid)
+{
+    global $connect;
+    $sql = "SELECT * FROM clients WHERE id = $cid ";
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_all($q, MYSQLI_ASSOC);
+}
+
+function getAllemailpassroleofclients()
+{
+    global $connect;
+    $sql = "SELECT email,password,role FROM clients ";
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_all($q, MYSQLI_ASSOC);
+}
+function getrole()
+{
+    global $connect;
+    $sql = "SELECT role FROM clients ";
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_all($q, MYSQLI_ASSOC);
+}
+function getid()
+{
+    $email = '';
+    global $connect;
+    $sql = "SELECT id FROM clients WHERE email = '$email' ";
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_all($q, MYSQLI_ASSOC);
+}
+?>
+
+<script type="text/javascript">
+    function pwd_handler(form) {
+        if (form.password.value != '') {
+            form.md5password.value = md5(form.password.value);
+            form.password.value = '';
+        }
+    }
+</script>
+<?php
+
+?>

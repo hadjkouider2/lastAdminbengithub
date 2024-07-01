@@ -1,23 +1,48 @@
 <?php
+session_start();
+require_once('config.php');
+require_once('functions.php');
 
-require_once 'config.php';
-$nom = isset($_POST['nom']) ? $_POST['nom'] : null;
-$email = isset($_POST['email']) ? $_POST['email'] : null;
-$password = (isset($_POST['password']) ? $_POST['password']   : null);
-$add = isset($_POST['add']) ? $_POST['add'] : null;
-
-if ($add == 'ok' && !empty($nom) && !empty($email) && !empty($password)) {
+$email = (isset($_POST['email'])) ? $_POST['email'] : NULL;
+$pass = (isset($_POST['password'])) ? $_POST['password'] : NULL;
+$isOk = (isset($_POST['v'])) ? $_POST['v'] : NULL;
+if ($isOk == 'yes') :
+    $email = trim($email);
+    $pass = trim($pass);
     $hashedPassword = password_hash('password', PASSWORD_BCRYPT);
-    $sql = "INSERT INTO clients (id,nom,email,password) VALUES(NULL,'$nom','$email','$hashedPassword')";
-    $set = mysqli_query($connect, $sql) or die(mysqli_error($connect));
+    $sql = "SELECT  id , role 
+FROM clients
+WHERE email ='$email'";
+    $q = mysqli_query($connect, $sql);
+    $counter = mysqli_num_rows($q);
+    $user = mysqli_fetch_all($q, MYSQLI_ASSOC);
+    $_SESSION['mine'] = ($user);
 
-    if ($set) {
-        header('location:front.php');
+
+    if ($counter > 0) {
+        $user = mysqli_fetch_all($q, MYSQLI_ASSOC);
+        $hashedPassword = $user['password'];
+        if (password_verify($pass, $hashedPassword)) {
+            header('Location:allcategory.php');
+        }
+
+        if ($_SESSION['mine'][0]['role'] == 'admin') {
+            header('Location:dashbord.php');
+        } elseif ($_SESSION['mine'][0]['role'] == 'user') {
+            header('Location:allcategory.php');
+        }
+    } else {
+        header('Location:signin.php');
     }
-}
+
+
+endif;
 
 
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,7 +56,6 @@ if ($add == 'ok' && !empty($nom) && !empty($email) && !empty($password)) {
     <link rel="stylesheet" href="style/all.min.css">
     <link rel="stylesheet" href="style/style2.css">
 
-
 </head>
 
 <body>
@@ -39,41 +63,31 @@ if ($add == 'ok' && !empty($nom) && !empty($email) && !empty($password)) {
         <h2 class="logo">Ecommerce</h2>
         <nav class="navigation">
             <a href="#">Acceuil</a>
-            <!-- <?php foreach ($myCats as $cat) : ?>
-        <a href="productsCat.php?p=<?= $cat['id'] ?>"><?= $cat['nom'] ?></a>
-      <?php endforeach; ?> -->
-            <a href="#">Contact</a>
-            <button class="btnLogin-popup">signin</button>
+            <a href="contact us.php">Contact</a>
+            <button class="btnLogin-popup">Connexion</button>
         </nav>
     </header>
     <section class="site-section aos-init aos-animate mt-5  " id='sticky'>
         <div class="container">
             <div class="row justify-content-center mb-5">
                 <div class="col-md-7 text-center border-primary">
-                    <h2 class="font-weight-light text-primary mb-5">Inscription</h2>
-                    <p class="color-black-opacity-5">Veuillez vous inscrire</p>
+                    <h2 class="font-weight-light text-primary mb-5">Connexion</h2>
+                    <p class="color-black-opacity-5">Veuillez vous connectez</p>
                 </div>
             </div>
             <div class="row">
                 <main>
                     <section class="">
-                        <div class="form-box register">
-                            <h2>S'inscrire</h2>
-                            <form action="" method="POST">
-                                <div class="input-box">
-                                    <span class="icon">
-                                        <i class="fa fa-user"></i>
-                                    </span>
-                                    <input type="text" name="nom" required>
-                                    <label>Nom d'utilisateur</label>
-                                </div>
+                        <div class="form-box login">
+                            <h2>Connexion</h2>
+                            <form action="" method="post">
                                 <div class="input-box">
                                     <span class="icon">
                                         <i class="fa fa-envelope"></i>
                                     </span>
                                     <input type="email" name="email" required>
                                     <label>Email</label>
-                                </div>
+                                </div>-
                                 <div class="input-box">
                                     <span class="icon">
                                         <i class="fa fa-lock"></i>
@@ -82,46 +96,32 @@ if ($add == 'ok' && !empty($nom) && !empty($email) && !empty($password)) {
                                     <label>Password</label>
                                 </div>
                                 <div class="remember-forgot">
-                                    <label><input type="checkbox">J'accept les termes & conditions
+                                    <label><input type="checkbox">Se souvenir de moi
                                     </label>
+                                    <a href="mots_de_passe_oublie.php">Mot de pass oublié?</a>
                                 </div>
-                                <input type="hidden" name="add" value="ok">
-
-                                <button type="submit" class="btn" value="Log in">S'inscrire</button>
+                                <input type="hidden" name="v" value="yes">
+                                <button type="submit" class="btn">Connexion</button>
                                 <div style="color: #ca3b20">
                                 </div>
                                 <div class="login-register">
-                                    <p>Vous avez deja un compte?<a href="#" class="login-link">Connexion</a></p>
+                                    <p>Vous n'avez pas de compte?<a href="signin.php" class="register-link">S'inscrire</a></p>
                                 </div>
-
                             </form>
 
-
                         </div>
-                        </form>
-
-
                     </section>
-
-
                 </main>
             </div>
+
+
+
+
         </div>
 
 
-    </section>
-
-
-
-
-
-
-
-
-
 
     </section>
-
 
     <script src="script/script.js"></script>
 </body>
