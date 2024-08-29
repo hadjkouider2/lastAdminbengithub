@@ -121,6 +121,13 @@ function getProductsById($id)
     $q = mysqli_query($connect, $sql);
     return mysqli_fetch_all($q, MYSQLI_ASSOC);
 }
+function getclientsById()
+{
+    global $connect;
+    $sql = "SELECT * FROM clients ";
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_all($q, MYSQLI_ASSOC);
+}
 function getProducts($id)
 {
     global $connect;
@@ -158,6 +165,75 @@ function getid()
     $q = mysqli_query($connect, $sql);
     return mysqli_fetch_all($q, MYSQLI_ASSOC);
 }
+
+function getmaxid_commande()
+{
+    global $connect;
+    $sql = "SELECT id FROM commande WHERE id = ( SELECT MAX( id ) AS idMax FROM commande )";
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_array($q, MYSQLI_ASSOC);
+}
+function getinfoforinvoice()
+{
+    global $connect;
+    $sql = 'SELECT id,nom,prix FROM products';
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_array($q, MYSQLI_ASSOC);
+}
+function getinfoclient()
+{
+    global $connect;
+    $sql = 'SELECT id,nom,email FROM clients';
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_array($q, MYSQLI_ASSOC);
+}
+function getinfoligne_commande()
+{
+    global $connect;
+    $sql = 'SELECT id_commande,prix,qty,total FROM ligne_commande';
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_array($q, MYSQLI_ASSOC);
+}
+function getinfocommande()
+{
+    global $connect;
+    $sql = 'SELECT total,date_creation FROM commande';
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_array($q, MYSQLI_ASSOC);
+}
+function getidetnomfromproducts()
+{
+    global $connect;
+    $sql = 'SELECT id,nom FROM products';
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_array($q, MYSQLI_ASSOC);
+}
+function gettotalcommande()
+{
+    $id = '';
+    global $connect;
+    $sql = "SELECT total FROM commande WHERE id = '$id' ";
+    $q = mysqli_query($connect, $sql);
+    return mysqli_fetch_array($q, MYSQLI_ASSOC);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>
 
 <script type="text/javascript">

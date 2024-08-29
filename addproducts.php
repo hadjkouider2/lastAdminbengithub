@@ -6,7 +6,7 @@ require_once 'functions.php';
 
 $nom = isset($_POST['nom']) ? $_POST['nom'] : null;
 $prix = isset($_POST['prix']) ? $_POST['prix'] : null;
-$qty = isset($_POST['qty']) ? $_POST['qty'] : null;
+$stock = isset($_POST['stock']) ? $_POST['stock'] : null;
 $photo = isset($_POST['photo']) ? $_POST['photo'] : null;
 $category_id = isset($_POST['category_id']) ? $_POST['category_id'] : null;
 $datetime = isset($_POST['datetime']) ? $_POST['datetime'] : null;
@@ -15,7 +15,7 @@ $add = isset($_POST['add']) ? $_POST['add'] : null;
 
 if ($add == 'ok') {
 
-    $sql = "INSERT INTO products(id,nom,prix,qty,photo,category_id,datetime) VALUES(NULL,'$nom','$prix','$qty','$photo','$category_id','$datetime')";
+    $sql = "INSERT INTO products(id,nom,prix,stock,photo,category_id,datetime) VALUES(NULL,'$nom','$prix','$stock','$photo','$category_id','$datetime')";
     $set = mysqli_query($connect, $sql) or die(mysqli_error($connect));
 
     if ($set) {
@@ -307,8 +307,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="qty">Qty</label>
-                                        <input type="number" class="form-control" name="qty" id="qty">
+                                        <label for="stock">stock</label>
+                                        <input type="number" class="form-control" name="stock" id="stock">
                                     </div>
                                     <div class="form-group">
                                         <label for="formFile" class="form-label">photo</label>

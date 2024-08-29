@@ -15,7 +15,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css" />
   <!-- Theme style -->
-  <link rel="stylesheet" href="css/adminlte.min.css" />
+  <link rel="stylesheet" href="css/adminlte.css" />
+  <link rel="stylesheet" href="plugins/fullcalendar/main.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="css/adminlte.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -175,7 +181,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
-              <a href="dashbord.php" class="nav-link text-white">
+              <a href="dashboard.php" class="nav-link text-white">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Dashbord
@@ -193,8 +199,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
             </li>
             <li class="nav-item">
+              <a href="allcategory.php" class="nav-link text-primary">
+                <i class="fa-solid fas fa-layer-group"></i>
+                <p>
+                  Allcategory
+
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="category.php" class="nav-link text-info">
-                <i class="nav-icon fas fa-layer-group"></i>
+                <i class="fa-solid fas fa-table"></i>
                 <p>
                   category
 
@@ -211,7 +226,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
             </li>
             <li class="nav-item">
-              <a href="invoice.php" class="nav-link">
+              <a href="order.php" class="nav-link text-info">
+                <i class="fa-solid fas fa-list"></i>
+                <p>
+                  order
+
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="list_order.php" class="nav-link text-grey">
+                <i class="fa-solid fas fa-list"></i>
+                <p>
+                  list_order
+
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="invoice.php" class="nav-link text-pink">
                 <i class="nav-icon fas fa-file-invoice-dollar"></i>
                 <p>
                   invoice
@@ -220,10 +253,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
             </li>
             <li class="nav-item">
-              <a href="login.php" class="nav-link">
+              <a href="etat_commande.php" class="nav-link text-pink">
                 <i class="nav-icon fas fa-file-invoice-dollar"></i>
                 <p>
-                  login
+                  Etat de commande
+
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="gestion_stock.php" class="nav-link text-pink">
+                <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                <p>
+                  Gestion du stock
+
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="contact.php" class="nav-link text-blue">
+                <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                <p>
+                  Contact
+
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="logout.php" class="nav-link text-danger">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+                  <path d="M2 2.75C2 1.784 2.784 1 3.75 1h2.5a.75.75 0 0 1 0 1.5h-2.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h2.5a.75.75 0 0 1 0 1.5h-2.5A1.75 1.75 0 0 1 2 13.25Zm10.44 4.5-1.97-1.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734l1.97-1.97H6.75a.75.75 0 0 1 0-1.5Z"></path>
+                </svg>
+                <p>
+                  logout
 
                 </p>
               </a>
@@ -244,13 +306,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Starter Page</h1>
+              <h1 class="m-0"></h1>
             </div>
             <!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Starter Page</li>
+                <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                <li class="breadcrumb-item active"></li>
               </ol>
             </div>
             <!-- /.col -->

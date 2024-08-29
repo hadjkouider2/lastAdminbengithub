@@ -1,13 +1,57 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
 require_once 'config.php';
+require_once 'autoload.php';
 require_once('functions.php');
+
+
+use PHPMailer\PHPMailer\SMTP;
+
+if (isset($_POST['submit'])) {
+  $recaptcha = new \ReCaptcha\ReCaptcha("6LcApiUqAAAAAEACtCdFQ1THHsqt9i47lLjiGQR3");
+  $gRecaptchaResponse = $_POST["g-recaptcha-response"];
+  $resp = $recaptcha->setExpectedHostname('localhost')
+    ->verify($gRecaptchaResponse, $remoteIp);
+  if ($resp->isSuccess()) {
+    echo "Success ! ";
+  } else {
+    $errors = $resp->getErrorCodes();
+    var_dump($errors);
+  }
+  $name = htmlentities($_POST['nom']);
+  $subject = htmlentities($_POST['subject']);
+  $message = htmlentities($_POST['message']);
+  $email = $_POST['email'];
+  $mail = new PHPMailer(true);
+  $mail->isSMTP();
+  $mail->Host       = 'smtp.gmail.com';
+  $mail->SMTPAuth   = true;
+  $mail->Username   = 'benboualihadjkouider@gmail.com';
+  $mail->Password   = 'bnai cqng tshd lppm';
+  $mail->SMTPSecure = 'ssl';
+  $mail->Port       = 465;
+  $mail->setFrom($_POST['email']);
+  $mail->addAddress($_POST['email']);
+  $mail->isHTML(true);
+  $key = mt_rand(99999, 999999);
+  $mail->Subject = 'your subject :' . $subject;
+  $mail->Body    = 'your message :' . $message;
+  $mail->send('');
+  echo "<script>alert('Message has been sent');</script>";
+}
+
 $myCats = getLatesCat(3);
 $catID = (isset($_GET['p'])) ? $_GET['p'] : NULL;
 
-if ($catID)
+if ($catID) {
   $products = getProductsByCat($catID);
-
-
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +65,7 @@ if ($catID)
   <link rel="stylesheet" href="style/bootstrap.min.css">
   <link rel="stylesheet" href="style/all.min.css">
   <link rel="stylesheet" href="style/style2.css">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 </head>
 
@@ -28,9 +73,9 @@ if ($catID)
   <header class="titleCommand ">
     <h2 class="logo ">Ecommerce</h2>
     <nav class="navigation mt-1 ">
-      <a href="front.php">Acceuil</a>
+      <a href="allcategory.php">Acceuil</a>
       <a href="contact us.php">Contact</a>
-      <button class="btnLogin-popup"><a href="login.php">Administration</a></button>
+      <!-- <button class="btnLogin-popup"><a href="login.php">Administration</a></button> -->
     </nav>
   </header>
   <section class="content mt-5">
@@ -46,27 +91,32 @@ if ($catID)
             </p>
           </div>
         </div>
+
         <div class="col-7">
-          <div class="form-group">
-            <label for="inputName" class="mt-5">Name</label>
-            <input type="text" id="inputName" class="form-control" />
-          </div>
-          <div class="form-group">
-            <label for="inputEmail">E-Mail</label>
-            <input type="email" id="inputEmail" class="form-control" />
-          </div>
-          <div class="form-group">
-            <label for="inputSubject">Subject</label>
-            <input type="text" id="inputSubject" class="form-control" />
-          </div>
-          <div class="form-group">
-            <label for="inputMessage">Message</label>
-            <textarea id="inputMessage" class="form-control" rows="4"></textarea>
-          </div>
-          <div class="form-group">
-            <input type="submit" class="mt-5 btn btn-primary" value="Send message">
-          </div>
+          <form action="" method="POST">
+            <div class="form-group">
+              <label for="inputName" class="mt-5">Name</label>
+              <input type="text" id="inputName" name="nom" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label for="inputEmail">E-Mail</label>
+              <input type="email" id="inputEmail" name="email" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label for="inputSubject">Subject</label>
+              <input type="text" id="inputSubject" name="subject" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label for="inputMessage">Message</label>
+              <textarea id="inputMessage" class="form-control" name="message" rows="4"></textarea>
+            </div>
+            <div class="g-recaptcha" data-sitekey="6LcApiUqAAAAAGqnIh_6Wae6UGUiHnTPA8MoOEIv"></div>
+            <div class="form-group">
+              <input type="submit" class="mt-5 btn btn-primary" name="submit" value="Send message">
+            </div>
+          </form>
         </div>
+
       </div>
     </div>
 

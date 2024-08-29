@@ -1,18 +1,24 @@
 <?php
 session_start();
-$articles = json_decode(file_get_contents('data/articles.json'), true);
+
 require_once 'config.php';
 require_once('functions.php');
 
 $myCats = getLatesCat(3);
 $id = (isset($_GET['m'])) ? $_GET['m'] : NULL;
 
-if ($id)
-    $products = getProductsById($id);
-// echo '<prev>';
-// print_r($products);
-// echo '</prev>';
+$idclients = $_SESSION['mine'][0]['id'];
+@$qty = ($_SESSION['cart'][$idclients][$id]);
 
+
+if ($id) {
+    $products = getProductsById($id);
+}
+
+// echo '<prev>';
+// print_r($qty);
+// echo '</prev>';
+$role = $_SESSION['mine'][0]['role'];
 
 ?>
 <!DOCTYPE html>
@@ -22,9 +28,11 @@ if ($id)
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
     <title>website with login and register form</title>
     <link href="https://fonts.googleapis.com/css2?family=Kenia&amp;display=swap" rel="stylesheet">
-    <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style/bootstrap.min.css">
     <link rel="stylesheet" href="style/all.min.css">
     <link rel="stylesheet" href="style/style2.css">
@@ -35,14 +43,28 @@ if ($id)
     <header class="titleCommand">
         <h2 class="logo">Ecommerce</h2>
         <nav class="navigation mt-1">
-            <a href="#">Acceuil</a>
+            <a href="allcategory.php">Acceuil</a>
             <?php foreach ($myCats as $cat) : ?>
                 <a href="productsCat.php?p=<?= $cat['id'] ?>"><?= $cat['nom'] ?></a>
             <?php endforeach; ?>
-            <a href="contact us.php">Contact</a>
+            <a href="contact us.php">Contact us</a>
+
+            <?php if ($role != 'user') { ?>
+                <button class="btnlogin-popup"><a href="dashbord.php">Administration</a></button>
+            <?php } ?>
             <a href="logout.php">logout</a>
-            <button class="btnLogin-popup"><a href="login.php">Administration</a></button>
         </nav>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Categories menu
+            </button>
+            <ul class="dropdown-menu">
+                <?php foreach ($myCats as $cat) : ?>
+                    <li><a href=" productsCat.php?p=<?= $cat['id'] ?>"><?= $cat['nom'] ?></a></li>
+                <?php endforeach; ?>
+
+            </ul>
+        </div>
     </header>
 
     <div class="container site-section aos-init aos-animate mt-5   id='sticky'">
@@ -52,7 +74,6 @@ if ($id)
                 <h2 class="font-weight-light text-primary mb-5">Nos articles</h2>
                 <p class="color-black-opacity-5">Nos articles les plus demandé</p>
             </div>
-
 
         </div>
 
@@ -66,8 +87,9 @@ if ($id)
                 <div class="col-md-6" style="width: 18rem;">
                     <hr>
                     <h2 class="card-title"><?= $product['nom']  ?></h2>
+                    <h5 class="card-title"><?= $product['details']  ?></h5>
                     <h4 class="card-title"> <span class="badge text-bg-info"><?= getCatById($product['category_id'])['nom'] ?></span></h4>
-
+                    <h5 class="card-title">Stock : <?= $product['stock'] ?></h5>
                     <?php
                     $discount = $product['discount'];
                     $prix = $product['prix'];
@@ -91,13 +113,22 @@ if ($id)
                     } ?>
                     <div class="card-footer">
                         <!-- <div class="counter"> -->
-                        <form action="addCart.php" method="post">
-                            <button onclick="return false;" class="btn-outline-secondary btn-lg mx-4 counter-plus">plus</button>
+                        <form action="addCart.php?m=<?= $product['id'] ?>" method="post">
+                            <button onclick="return false;" class="btn-outline-primary btn-lg mx-1 counter-moins">-</button>
                             <input type="hidden" name="id" value="<?= $product['id'] ?>">
-                            <input class="text-center" value="0" type="number" name="qty" id="qty" max="99">
-                            <button onclick="return false;" class="btn-outline-secondary btn-lg mx-4 counter-moins">moin</button>
-                            <input class="btn btn-success" type="submit" value="Ajouter" name="ajouter">
+                            <input class="text-center " value="0" type="text" name="qty" id="qty" max="99">
+                            <button onclick="return false;" class="btn-outline-primary btn-lg mx-1 counter-plus">+</button>
+                            <input class="btn-outline-primary btn-lg mx-1" type="submit" value="Ajouter" name="ajouter">
+                            <?php
+
+                            if ($qty != 0) {
+                            ?>
+                                <input formaction="deleteCart.php" class="btn-outline-danger btn-lg mx-1" type="submit" value="delete" name="delete">
+                            <?php
+                            }
+                            ?>
                         </form>
+                        <hr>
                         <!-- </div> -->
                     </div>
 
@@ -135,6 +166,7 @@ if ($id)
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="script/script.js"></script>
     <script src="script/counter.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>
